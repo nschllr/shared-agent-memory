@@ -12,7 +12,7 @@ recoverability and current technical truth.
 ## Hard Rules
 
 - Do not modify `.agent/INSTRUCTIONS.md`.
-- Do not delete source code, or experiment
+- Do not delete source code, exploit artifacts, build outputs, or experiment
   data unless user explicitly names the target.
 - Do not rewrite unrelated user changes.
 - Prefer updating stale docs/state over deleting uncertain information.
@@ -59,13 +59,19 @@ test ! -d .agent/commands || cp -R .agent/commands ".agent/backup/$ts/"
 
 ### Agent Coordination Files
 
-- `.agent/shared-state.md`: keep durable current facts; remove duplicated
-  historical narration already covered in handoff.
-- `.agent/environment.md`: keep commands that still matter and their latest
-  known results; remove obsolete failed attempts unless they explain current
-  constraints.
-- `.agent/decisions.md`: keep decisions that still guide work; merge duplicate
-  policy decisions; do not remove active user policy.
+- `.agent/shared-state.md`: keep durable current facts, latest result
+  summaries, artifact paths, and current state needed by future agents. Remove
+  duplicated historical narration already covered in handoff or committed docs.
+- `.agent/environment.md`: keep reusable commands, validation commands,
+  environment constraints, stable tool/runtime facts, and non-obvious command
+  failure modes. Do not keep a historical/latest-results ledger here; move
+  result summaries and artifact paths to `.agent/shared-state.md`.
+- `.agent/decisions.md`: keep durable policy/design decisions that should guide
+  future work. Do not duplicate routine agent protocol, task-board formatting
+  rules, cleanup mechanics, command recipes, or result summaries owned by
+  `.agent/INSTRUCTIONS.md`, `.agent/commands/clean-up.md`,
+  `.agent/task-board.md`, `.agent/environment.md`, or
+  `.agent/shared-state.md`.
 - `.agent/task-board.md`: move finished active items to completed; remove tasks
   that are obsolete because later state superseded them; keep actionable next
   tasks. Enforce the task-board rules header, `Active`/`Later`/`Done Recently`
@@ -80,28 +86,17 @@ test ! -d .agent/commands || cp -R .agent/commands ".agent/backup/$ts/"
   fold durable content into normal docs or remove them. Do not create a
   completed-plan archive.
 
-### Project Docs And State
+During cleanup, explicitly check for cross-file ownership drift:
 
-Check whole project for stale references before editing:
+- Result summaries, run directories, artifact paths, and counts should not live
+  in `.agent/environment.md` unless they are expected command output or a stable
+  tool/runtime fact.
+- Cleanup backup rules and task-board field rules should not live in
+  `.agent/decisions.md`; their source is this command spec plus
+  `.agent/task-board.md`.
+- Durable policy should not be repeated in `.agent/shared-state.md` when the
+  same point already exists in `.agent/decisions.md`.
 
-```bash
-rg -n "TODO|FIXME|stale|old|deprecated" \
-  --glob '!.agent/backup/**' \
-  --glob '!.git/**' \
-  --glob '!.venv/**' \
-  .
-find . -maxdepth 3 -path ./.agent/backup -prune -o -type f \( -name '*.md' -o -name '*.txt' -o -name '*.csv' \) -print
-git status --short
-```
-
-Update docs when they contradict current state. Common targets:
-- `docs/*.md`
-- `docs/plans/*.md`
-- `.agent/*.md`
-
-Do not scan or rewrite huge generated trees unless needed. Usually skip:
-- `.git/`
-- `.venv/`
 
 ## Compression Rules
 
