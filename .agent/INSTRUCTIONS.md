@@ -6,6 +6,7 @@ Before starting:
 3. Read `.agent/decisions.md`.
 4. Read `.agent/task-board.md`.
 5. Run `git status` if you are in a git repository.
+6. Assign yourself a random ID like "agent-RANDOM-4-BYTE-STRING" if not already happend, keep this id for the entire session
 
 When discovering durable information:
 - Update `.agent/shared-state.md` only for durable current facts that affect
@@ -28,7 +29,7 @@ When starting work:
 - Claim the task/files in `.agent/task-board.md` only for substantial work,
   long-running work, or changes that could conflict with another agent. Do not
   claim read-only audits, status checks, small instruction edits, or quick
-  single-agent fixes.
+  single-agent fixes. Use you random ID for claiming tasks.
 
 When stopping:
 - Append a handoff to `.agent/handoff.md` only if concrete work happened or
