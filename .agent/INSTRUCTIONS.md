@@ -37,7 +37,7 @@ When stopping:
   meaningful results, work is partially complete, or a blocker/remediation path
   needs to be preserved.
 - Do not append no-op handoffs for context refreshes, instruction reads, status
-  replies, skill toggles, or sessions where no concrete task started.
+  replies, skill toggles, git actions, small doc updates, or sessions where no concrete task started.
 - Keep handoffs actionable: summarize the trigger, files changed, important
   command results, blockers, and remaining work. Avoid chat metadata and
   repeated lists of files merely read.

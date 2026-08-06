@@ -1,6 +1,6 @@
 # Command: run agent cleanup
 
-Trigger only when user explicitly says `run agent cleanup`.
+Trigger only when user explicitly says `run agent cleanup` or `run agent clean-up`.
 
 Do not run for casual phrases like `cleanup`, `clean up`, `clean-up`, or
 general requests to tidy code/docs. If the user asks about cleanup without the
@@ -59,9 +59,7 @@ test ! -d .agent/commands || cp -R .agent/commands ".agent/backup/$ts/"
 
 ### Agent Coordination Files
 
-- `.agent/shared-state.md`: keep durable current facts, latest result
-  summaries, artifact paths, and current state needed by future agents. Remove
-  duplicated historical narration already covered in handoff or committed docs.
+- `.agent/shared-state.md`: keep durable current and important facts, artifact paths, and current state needed by future agents. do not store results -- if so just link to those results. duplicated historical narration already covered in handoff or committed docs.
 - `.agent/environment.md`: keep reusable commands, validation commands,
   environment constraints, stable tool/runtime facts, and non-obvious command
   failure modes. Do not keep a historical/latest-results ledger here; move
