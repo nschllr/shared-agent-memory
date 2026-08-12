@@ -1,5 +1,7 @@
 # Shared multi-agent protocol
 
+Read and follow `.agent/PROJECT-INSTRUCTIONS.md` for project-specific instructions.
+
 Before starting:
 1. Read `.agent/shared-state.md`.
 2. Read `.agent/environment.md`.
